@@ -7,7 +7,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      /etc/nixos/hardware-configuration.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -17,7 +17,7 @@
   # boot.loader.grub.efiInstallAsRemovable = true;
   # boot.loader.efi.efiSysMountPoint = "/boot/efi";
   # Define on which hard drive you want to install Grub.
-  # boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -59,7 +59,11 @@
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Define a user account. Don't forget to set a password with 'passwd'.
+  users.mutableUsers = false;
   users.extraUsers.stephenlam = {
+    name = "stephenlam";
+    hashedPassword = "$6$.3Pw5OVF44wwCp$mZAYsZMIaaYpDbY/yrguHbl9hG7aCEuTHSAT4Jc.QzU4UZ50u9Eu5XnzNSeyvIcBADBVvegdmvbqnbyR5462V1";
+    extraGroups = [ "wheel" ];
     isNormalUser = true;
     uid = 1000;
     home = "/home/stephenlam";
