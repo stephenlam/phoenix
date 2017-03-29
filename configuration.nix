@@ -42,9 +42,12 @@
     git
     gnumake
     htop
+    kde5.konsole
     rsync
+    screenfetch
     slock
     unzip
+    uzbl
     weechat
     wget
   ];

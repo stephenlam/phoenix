@@ -9,7 +9,6 @@
         "syntastic"
         "vim-polyglot"
         "youcompleteme"
-#        "ateliercave"
       ];
     }];
   }) ];
