@@ -1,15 +1,16 @@
 { config, pkgs, ... }:
 
-pkgs.vim_configurable.customize {
-  name = "vim-with-plugins";
-
-  vimrcConfig.vam.knownPlugins = pkgs.vimPlugins;
-  vimrcConfig.vam.pluginDictionaries = [{ names =
-    [ "ctrlp"
-    , "syntastic"
-    , "vim-polyglot"
-    , "youcompleteme"
-    , "ateliercave"
-    ];
-  }];
-};
+{
+  environment.systemPackages = [ (pkgs.neovim.override {
+    vimAlias = true;
+    configure.vam.knownPlugins = pkgs.vimPlugins;
+    configure.vam.pluginDictionaries = [{ names =
+      [ "ctrlp"
+        "syntastic"
+        "vim-polyglot"
+        "youcompleteme"
+#        "ateliercave"
+      ];
+    }];
+  }) ];
+}

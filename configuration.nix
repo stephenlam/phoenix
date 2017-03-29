@@ -8,6 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
+
+      ./neovim.nix
+      ./xmonad.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -36,14 +39,17 @@
   environment.systemPackages = with pkgs; [
     chromium
     feh
+    git
     gnumake
     htop
-    neovim
     rsync
+    slock
     unzip
     weechat
     wget
   ];
+
+  security.setuidPrograms = [ "slock" ];
 
   # List services that you want to enable:
 
