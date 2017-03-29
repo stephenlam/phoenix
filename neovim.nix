@@ -6,7 +6,7 @@
     configure.vam.knownPlugins = pkgs.vimPlugins;
     configure.vam.pluginDictionaries = [{ names =
       [ "ctrlp"
-        "syntastic"
+        "neomake"
         "vim-polyglot"
         "youcompleteme"
       ];

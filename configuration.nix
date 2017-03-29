@@ -37,7 +37,7 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    chromium
+    curl
     feh
     git
     gnumake
@@ -45,7 +45,6 @@
     kde5.konsole
     rsync
     screenfetch
-    slock
     unzip
     uzbl
     weechat
