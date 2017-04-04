@@ -24,6 +24,7 @@
   # Filesystem mounts
   fileSystems."/".device = pkgs.lib.mkForce "/dev/mapper/vg1-root";
   fileSystems."/home".device = pkgs.lib.mkForce "/dev/mapper/vg1-home";
+  fileSystems."/boot".device = "/dev/disk/by-label/efi-boot";
 
   # Select internationalisation properties.
   i18n = {
