@@ -5,25 +5,25 @@
 { config, pkgs, ... }:
 
 {
+  nixpkgs.config.allowUnfree = true;
+
   imports =
     [ # Include the results of the hardware scan.
       /etc/nixos/hardware-configuration.nix
 
-      ./neovim.nix
-      ./xmonad.nix
+      ./bootloader.nix
     ];
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  # boot.loader.grub.efiSupport = true;
-  # boot.loader.grub.efiInstallAsRemovable = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
-  # networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "navireborn"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+  # LUKS on LVM
+  boot.initrd.luks.devices.crypted.device = "/dev/sda2";
+  
+  # Filesystem mounts
+  fileSystems."/".device = pkgs.lib.mkForce "/dev/mapper/vg1-root";
+  fileSystems."/home".device = pkgs.lib.mkForce "/dev/mapper/vg1-home";
 
   # Select internationalisation properties.
   i18n = {
@@ -38,48 +38,60 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     curl
+    emacs
     feh
     git
+    google-chrome
     gnumake
     htop
-    kde5.konsole
+    inkscape
+    libreoffice
+    krita
+    mkpasswd
+    mpv
     rsync
     screenfetch
+    steam
+    tomahawk
     unzip
-    uzbl
     weechat
     wget
   ];
 
-  security.setuidPrograms = [ "slock" ];
+  programs.zsh.enable = true;
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-  # services.xserver.layout = "us";
+  services.xserver.enable = true;
+  services.xserver.layout = "us";
+  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
   # services.xserver.xkbOptions = "eurosign:e";
 
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.mutableUsers = false;
-  users.extraUsers.stephenlam = {
-    name = "stephenlam";
+  users.extraUsers.stephen = {
     hashedPassword = "$6$.3Pw5OVF44wwCp$mZAYsZMIaaYpDbY/yrguHbl9hG7aCEuTHSAT4Jc.QzU4UZ50u9Eu5XnzNSeyvIcBADBVvegdmvbqnbyR5462V1";
     extraGroups = [ "wheel" ];
     isNormalUser = true;
     uid = 1000;
-    home = "/home/stephenlam";
-    createHome = true;
-    shell = "${pkgs.zsh}/bin/zsh";
+    shell = pkgs.zsh;
+  };
+
+  users.extraUsers.yiran = {
+    hashedPassword = "$6$ztOW/A9nn$VMZaQi9SIo09k96Y1DyhjIFN16lrB1ylf8h5rrT73jvLJHMnksgY8G26qrNhtYVSnIDN.5LrrZaaVGRgIltLz1";
+    isNormalUser = true;
+    uid = 1001;
   };
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "16.09";
-
+  system.stateVersion = "17.03";
 }
